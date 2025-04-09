@@ -1,0 +1,6 @@
+compile all
+javac -cp ".;antlr-4.13.2-complete.jar" *.java
+run no tree
+java -cp ".;antlr-4.13.2-complete.jar" TestAguda
+run tree
+java -cp ".;antlr-4.13.2-complete.jar" TestAguda -gui 
