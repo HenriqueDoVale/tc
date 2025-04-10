@@ -3,8 +3,8 @@ grammar Aguda;
 program: declaration+ EOF;
 
 declaration
-    : 'let' ID ':' type '=' expression                               #variableDeclaration
-    | 'let' ID '(' paramList? ')' ':' type '=' expression            #functionDeclaration
+    : 'let' ID ':' type '=' block                               #variableDeclaration
+    | 'let' ID '(' paramList? ')' ':' type '=' block            #functionDeclaration
     ;
 
 paramList: ID (',' ID)*;
@@ -19,12 +19,23 @@ type
     | type '->' type
     ;
 
-expression: ifExpr;
+expression
+    : ifExpr                                                       #passToIf
+    | whileExpr                                                    #passToWhileExpr
+    | logicExpr                                                    #passToLogic
+    ;
+
+block
+    : (expression (';' expression)*)?                              #seqExpr
+    ;
 
 ifExpr
-    : 'if' expression 'then' expression 'else' expression            #ifThenElseExpr
-    | 'if' expression 'then' expression                              #ifThenExpr
-    | logicExpr                                                      #passToLogic
+    : 'if' expression 'then' expression 'else' expression          #ifThenElseExpr
+    | 'if' expression 'then' expression                            #ifThenExpr
+    ;
+
+whileExpr
+    : 'while' expression 'do' '(' block ')'                        #whileLoop
     ;
 
 logicExpr
@@ -58,14 +69,12 @@ unaryExpr
     | primary                                                        #passToPrimary
     ;
 
-
 primary
     : ID '(' argumentList? ')'                                       #functionCall
-    | 'set' lhs '=' expression (';' expression)*                                      #assignmentExpr
-    | 'let' ID ':' type '=' expression (';' expression)*                                  #letInExpr
-    | 'new' type '[' expression '|' expression ']'                   #arrayCreation
+    | 'set' lhs '=' expression                                       #setExpr
+    | 'let' ID ':' type '=' expression                               #letInExpr
+    | 'new' type '[' expression '|' expression ']'                  #arrayCreation
     | primary '[' expression ']'                                     #arrayAccess
-    | primary ';' expression                                         #seqExpr
     | literal                                                        #literalExpr
     | ID                                                             #idExpr
     | '(' expression ')'                                             #parenExpr

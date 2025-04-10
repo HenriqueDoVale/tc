@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class TestAguda {
     public static void main(String[] args) throws Exception {
-        String filePath = "C:\\Users\\henri\\Downloads\\aguda-testing-main-test-valid\\aguda-testing-main-test-valid\\test\\valid\\58168_cubesForEvenNum\\cubesForEvenNum.agu";
+        String filePath = "C:\\Users\\henri\\Downloads\\aguda-testing-main-test-valid\\aguda-testing-main-test-valid\\test\\valid\\58168_addOneValueToArray\\addOneValueToArray.agu";
         CharStream cs = CharStreams.fromFileName(filePath);
 
         // Lexing and parsing
